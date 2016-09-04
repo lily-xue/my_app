@@ -1,0 +1,27 @@
+<h1>新建请假申请</h1>
+<%= form_for(@application) do |f| %>
+  <% if flash[:notice] %>
+    <p class="box notice"> <%= flash[:notice] %> </p>
+  <% elsif flash[:error] %>
+    <p class="box error"> <%= flash[:error] %> </p>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :开始时间 %>
+    <%= f.date_select :start_day,use_month_numbers: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :结束时间 %>
+    <%= f.date_select :end_day,use_month_numbers: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :请假原因 %>
+    <%= f.text_field :application_reasons %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "提交申请"%>
+  </div>
+<% end %>

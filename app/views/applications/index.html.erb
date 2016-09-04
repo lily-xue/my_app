@@ -1,0 +1,20 @@
+<% @applications.each do |application|%>
+<div class="field">
+<% if application %>
+<%= application.application_reasons %>
+<% else %>
+<%= application.application_reasons %>
+<!--%= todo.title %-->
+<% end %>
+<span class="timeinfo"><%= application.created_at.to_formatted_s(:db) %> </span>
+
+
+<% if application.status == "申请中" %>
+<%= link_to "同意",application_path(application.id, application: {status: "已同意"}),method: :patch %>,
+<%= link_to "拒绝",application_path(application.id, application: {status: "已拒绝"}),method: :patch %>,
+<% else %>
+<%= application.status %>
+<% end %>
+<%= link_to "编辑",edit_application_path(application.id) %>,
+</div>
+<% end %>

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>姓名:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>邮箱:</strong>
+  <%= @user.email %>
+</p>
+
+
+<%= link_to '编辑用户', edit_user_path(@user) %> |
+<%= link_to '返回', users_path %>

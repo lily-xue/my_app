@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_day: 2016-09-04
+  end_day: 2016-09-04
+  application_reasons: MyString
+  admin_comments: MyString
+  status: MyString
+
+two:
+  start_day: 2016-09-04
+  end_day: 2016-09-04
+  application_reasons: MyString
+  admin_comments: MyString
+  status: MyString
