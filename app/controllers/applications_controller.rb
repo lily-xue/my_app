@@ -15,14 +15,19 @@ class ApplicationsController < ApplicationController
   end
 
   def edit
+    @application = Application.find(params[:id])
   end
 
   def show
   end
 
   def index
+    if @current_user.is_admin == true
+       @applications = Application.all
+    else
     @applications = @current_user.applications
     @application= Application.new
+    end
   end
 
   def update

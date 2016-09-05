@@ -20,4 +20,10 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user
   end
+
+  def admin?
+    @current_user.is_admin == "true"
+
+  end
+
 end

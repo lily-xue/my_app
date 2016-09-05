@@ -1,0 +1,16 @@
+<%= form_for(@application) do |f| %>
+  <% if flash[:notice] %>
+    <p class="box notice"> <%= flash[:notice] %> </p>
+  <% elsif flash[:error] %>
+    <p class="box error"> <%= flash[:error] %> </p>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :请假原因 %>
+    <%= f.text_field :application_reasons %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "提交"%>
+  </div>
+<% end %>

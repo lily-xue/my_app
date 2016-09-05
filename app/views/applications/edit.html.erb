@@ -1,2 +1,6 @@
-<h1>Applications#edit</h1>
-<p>Find me in app/views/applications/edit.html.erb</p>
+<h1>编辑原因</h1>
+
+<%= render 'form', user: @application %>
+
+<%= link_to '查看', @application %> |
+<%= link_to '返回', applications_path %>
