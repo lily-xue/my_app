@@ -1,7 +1,7 @@
 <%= form_for(@application) do |f| %>
-  <% if flash[:notice] %>
+  <% if flash.now[:notice] %>
     <p class="box notice"> <%= flash[:notice] %> </p>
-  <% elsif flash[:error] %>
+  <% elsif flash.now[:error] %>
     <p class="box error"> <%= flash[:error] %> </p>
   <% end %>
 
@@ -9,6 +9,12 @@
     <%= f.label :请假原因 %>
     <%= f.text_field :application_reasons %>
   </div>
+  <% if @current_user.is_admin == true %>
+  <div class="field">
+    <%= f.label :添加管理员备注 %>
+    <%= f.text_field :admin_comments %>
+  </div>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "提交"%>

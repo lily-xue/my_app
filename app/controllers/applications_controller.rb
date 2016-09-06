@@ -1,5 +1,7 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate!
+  before_action :admin_not_fixed, only: [:edit,:update]
+
   def new
     @applications = @current_user.applications
     @application = Application.new
@@ -22,11 +24,11 @@ class ApplicationsController < ApplicationController
   end
 
   def index
-    if @current_user.is_admin == true
-       @applications = Application.all
+    if @current_user.is_admin == true   #如果当前用户为管理员，则显示所有请假信息
+       @applications = Application.all.order(created_at: :desc)  #显示所有申请信息，并根据申请时间降序排列
     else
-    @applications = @current_user.applications
-    @application= Application.new
+      @applications = @current_user.applications.order(created_at: :desc)  #如果当前用户是普通用户，则显示本人的所有申请信息，根据申请时间降序排序
+      @application = Application.new
     end
   end
 
@@ -44,8 +46,12 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  def admin_not_fixed
+     @application = Application.find(params[:id])
+     @application.status == "申请中"
+  end
+
   def application_params
     params.require(:application).permit(:start_day,:end_day,:application_reasons,:admin_comments,:status)
-
   end
 end
