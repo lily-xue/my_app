@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-resources :applications,except: [:delete]
+resources :applications,except: [:delete, :show]
 
     get '/login', to: 'sessions#new'           # 获取登录表路由
     post '/login', to: 'sessions#create'       # 登录路由

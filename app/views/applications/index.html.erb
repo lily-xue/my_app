@@ -1,19 +1,15 @@
 <% @applications.each do |application|%>
 <div class="field">
-<% if application %>
+<%= application.id %>
 <%= application.application_reasons %>
-<% else %>
-<%= application.application_reasons %>
-<!--%= todo.title %-->
-<% end %>
 <span class="timeinfo"><%= application.created_at.to_formatted_s(:db) %> </span>
 
-
+<%= application.user.name %>
 <% if application.status == "申请中" && @current_user.is_admin == true %>
 <%= link_to "同意",application_path(application.id, application: {status: "已同意"}),method: :patch %>
 <%= link_to "拒绝",application_path(application.id, application: {status: "已拒绝"}),method: :patch %>
 <%= application.admin_comments %>
-<%= link_to "添加管理员备注",edit_application_path(application.id) %>
+<%= link_to "更新管理员备注",edit_application_path(application.id) %>
 <% elsif @current_user.is_admin == true %>
 <%= application.status %>
 <% elsif application.status == "申请中" %>

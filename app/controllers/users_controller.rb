@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to users_path, notice: '创建用户成功' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: '修改用户信息成功' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: '删除用户成功' }
       format.json { head :no_content }
     end
   end
@@ -68,14 +68,14 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    def correct_user
+    def correct_user#如果不是本人或者管理员，则跳转到根页面
       set_user
       @current_user = User.find_by(id: session[:user_id])
       redirect_to(root_path) unless  @current_user == @user || @current_user.is_admin? #current_user?(@user)
       end
     end
 
-    def admin_user
+    def admin_user#如果不是管理员，则跳转到根页面
       @current_user = User.find_by(id: session[:user_id])
       redirect_to(root_path) unless @current_user.is_admin?
     end
