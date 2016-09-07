@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :correct_user, only: [:edit, :update,:show]
+  before_action :admin_user,only: [:create,:destroy,:index,:new]
   # GET /users
   # GET /users.json
   def index
@@ -67,8 +68,19 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def correct_user
+      set_user
+      @current_user = User.find_by(id: session[:user_id])
+      redirect_to(root_path) unless  @current_user == @user || @current_user.is_admin? #current_user?(@user)
+      end
+    end
+
+    def admin_user
+      @current_user = User.find_by(id: session[:user_id])
+      redirect_to(root_path) unless @current_user.is_admin?
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email)
     end
-end

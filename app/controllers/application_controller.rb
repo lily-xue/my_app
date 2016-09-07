@@ -21,9 +21,14 @@ class ApplicationController < ActionController::Base
     @current_user
   end
 
-  def admin?
-    @current_user.is_admin == "true"
+  # def admin?
+  #   @current_user.is_admin == "true"
+  #
+  # end
 
+  def current_user?(user)
+    user == @current_user
+    puts "#{@current_user}"
   end
 
 end

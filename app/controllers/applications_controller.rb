@@ -40,7 +40,7 @@ class ApplicationsController < ApplicationController
 
   private
   def authenticate!
-    @current_user = User.find_by(id: session[:user_id])
+      @current_user = User.find_by(id: session[:user_id])
     if @current_user.blank?
       redirect_to login_path and return
     end
