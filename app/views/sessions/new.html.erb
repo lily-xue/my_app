@@ -12,3 +12,28 @@
   <p><%= submit_tag "登陆" %></p>
   <% end %>
 </div>
+<% @applications.each do |application|%>
+<div class="field">
+<%= application.id %>
+<%= application.application_reasons %>
+<span class="timeinfo"><%= application.created_at.to_formatted_s(:db) %> </span>
+
+<%= application.user.name %>
+<%= application.status %>
+<%= application.admin_comments %>
+<% if application.status == "申请中" && @current_user.is_admin == true %>
+<%= link_to "同意",application_path(application.id, application: {status: "已同意"}),method: :patch %>
+<%= link_to "拒绝",application_path(application.id, application: {status: "已拒绝"}),method: :patch %>
+<%= link_to "添加备注",edit_application_path(application.id) %>
+
+<% elsif @current_user.is_admin == true %>
+<%= link_to "添加备注",edit_application_path(application.id) %>
+
+<% elsif application.status == "申请中" %>
+<%= link_to "编辑申请说明",edit_application_path(application.id) %>
+<% end %>
+<span class="timeinfo"><%= application.updated_at.to_formatted_s(:db) %> </span>
+
+
+</div>
+<% end %>
