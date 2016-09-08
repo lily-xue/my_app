@@ -1,7 +1,8 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate!
   before_action :admin_not_fixed, only: [:edit,:update]
-
+  after_action :sendmail_for_application_update, only: [:update]
+  after_action :sendmail_for_application_create, only: [:create]
   def new
     @applications = @current_user.applications
     @application = Application.new
@@ -39,7 +40,7 @@ class ApplicationsController < ApplicationController
   end
 
   private
-  def authenticate!
+  def authenticate! #必须登录才可以修改申请
       @current_user = User.find_by(id: session[:user_id])
     if @current_user.blank?
       redirect_to login_path and return
@@ -51,7 +52,19 @@ class ApplicationsController < ApplicationController
      @application.status == "申请中"
   end
 
-  def application_params
+  def sendmail_for_application_update  #申请状态变化,发邮件给申请人
+      Sendmail.sendmail_for_application(@application.user).deliver
+  end
+
+  def sendmail_for_application_create #新建申请时,发邮件给所有管理员
+      admins = User.where(is_admin: true)
+      admins.each  do |admin|
+      Sendmail.sendmail_for_application(admin).deliver
+      puts admin.name  
+      end
+  end
+
+  def application_params   #新建申请时的参数
     params.require(:application).permit(:start_day,:end_day,:application_reasons,:admin_comments,:status)
   end
 end
