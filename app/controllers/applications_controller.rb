@@ -60,7 +60,7 @@ class ApplicationsController < ApplicationController
       admins = User.where(is_admin: true)
       admins.each  do |admin|
       Sendmail.sendmail_for_application(admin).deliver
-      puts admin.name  
+      puts admin.name
       end
   end
 

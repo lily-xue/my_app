@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
      @current_user = user
   end
 
+
   def logout
     session[:user_id] = nil
     @current_user = nil
