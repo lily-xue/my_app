@@ -43,11 +43,9 @@ class ApplicationsController < ApplicationController
   end
 
   private
-  def authenticate! #必须登录才可以修改申请
-      @current_user = User.find_by(id: session[:user_id])
-    if @current_user.blank?
-      redirect_to login_path and return
-    end
+  def admin_not_fixed
+   @application = Application.find(params[:id])
+   @application.status == "申请中"
   end
 
   def admin_not_fixed_add_correct_applier

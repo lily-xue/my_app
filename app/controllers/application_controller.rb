@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user,:logined?
+  helper_method :current_user,:logined?,:authenticate!
 
   def login_as(user)
      session[:user_id] = user.id
@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
     @current_user
   end
 
+  def authenticate! #必须登录才可以修改申请
+      @current_user = User.find_by(id: session[:user_id])
+    if @current_user.blank?
+      redirect_to login_path and return
+    end
+  end
   # def admin?
   #   @current_user.is_admin == "true"
   #
