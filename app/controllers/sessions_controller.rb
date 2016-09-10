@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(name: params[:name])
+    user = User.find_by(email: params[:email])
   # 如果用户找到，同时密码匹配
   if user && user.authenticate(params[:password])
     # 如果成功，则跳转到 login_as 方法，下面会给出实现

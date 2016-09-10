@@ -5,8 +5,8 @@
           <p class="text-center">
             <h1>登录</h1>
             <%= form_tag login_path do |f| %>
-            <p><label>　用户名: </label><%= text_field_tag :name %></p>
-            <p><label>　　密码: </label><%= password_field_tag :password %></p>
+            <p><label>　邮箱: </label><%= text_field_tag :email %></p>
+            <p><label>　密码: </label><%= password_field_tag :password %></p>
             <p><%= submit_tag "登陆" %></p>
             <% end %>
         </p>

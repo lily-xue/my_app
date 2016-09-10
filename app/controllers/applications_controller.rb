@@ -1,8 +1,9 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate!
-  before_action :admin_not_fixed, only: [:edit,:update]
+  before_action :admin!, only: [:edit,:update]
   after_action :sendmail_for_application_update, only: [:update]
   after_action :sendmail_for_application_create, only: [:create]
+
   def new
     @applications = @current_user.applications
     @application = Application.new
@@ -32,17 +33,18 @@ class ApplicationsController < ApplicationController
 
   def update
     application = Application.find(params[:id])
-   if !@current_user.is_admin? && application.status == "申请中"
-      application.update(application_params_reasons)
-    elsif @current_user.is_admin? && application.status != "申请中"
-      application.update(application_params_comments)
-    elsif @current_user.is_admin? && application.status == "申请中"
+    if @current_user.is_admin? && application.status == "申请中"#管理员更新状态，可以同事更新备注和状态
       application.update(application_params_comment_status)
     end
     redirect_to applications_path
   end
 
   private
+
+  def admin!
+  redirect_to applications_path unless @current_user.is_admin?
+  end
+
   def admin_not_fixed
    @application = Application.find(params[:id])
    @application.status == "申请中"
@@ -55,23 +57,26 @@ class ApplicationsController < ApplicationController
 
 
   def sendmail_for_application_update  #申请状态变化,发邮件给申请人
-    begin  #错误处理程序，如果发送邮件失败，报错
+   begin  #错误处理程序，如果发送邮件失败，报错
+       @application = Application.find(params[:id])
        Sendmail.sendmail_for_application(@application.user).deliver
-    rescue
+  rescue
        flash[:notice] = "发送邮件失败"
-     end
+  end
   end
 
   def sendmail_for_application_create #新建申请时,发邮件给所有管理员
-      admins = User.where(is_admin: true)
-      admins.each  do |admin|
-        begin
-      Sendmail.sendmail_for_application(admin).deliver
-        rescue
-          flash[:notice] = "发送邮件给#{admin.name}失败"
-        end
+      admin = User.where(is_admin: true)
 
-      end
+      puts admin
+      # admins.each  do |admin|
+      #   begin
+      Sendmail.sendmail_for_application(admin).deliver
+      #   rescue
+      #     flash[:notice] = "发送邮件给#{admin.name}失败"
+      #   end
+
+      # end
   end
 
   def application_params   #新建申请时的参数
@@ -80,13 +85,5 @@ class ApplicationsController < ApplicationController
 
   def application_params_comment_status
     params.require(:application).permit(:admin_comments, :status)
-  end
-
-  def application_params_comments
-    params.require(:application).permit(:admin_comments)
-  end
-
-  def application_params_reasons
-    params.require(:application).permit(:application_reasons)
   end
 end
