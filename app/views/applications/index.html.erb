@@ -1,4 +1,6 @@
+
 <h1 class="text-center">请假管理系统</p></h1>
+
 <table class="table table-hover table-bordered table-condensed">
 			<thead>
 					<tr class="warning">
@@ -47,15 +49,18 @@
               <%= application.end_day.to_formatted_s(:db) %>
             </td>
             <td>
-              <% if application.status == "申请中" && @current_user.is_admin == true %>
-              <%= link_to "同意",application_path(application.id, application: {status: "已同意"}),method: :patch %>
-              <%= link_to "拒绝",application_path(application.id, application: {status: "已拒绝"}),method: :patch %>
+              <% if application.status == "申请中" && @current_user.is_admin? %>
+              <%= link_to "同意",application_path(application.id, application: {status: "已同意"}),method: :patch, class: "text-info" %>
+              <%= link_to "拒绝",application_path(application.id, application: {status: "已拒绝"}),method: :patch, class: "text-info"%>
               <% else %>
               <%= application.status %>
               <% end %>
             </td>
             <td>
-              <%= application.admin_comments %>
+								<%= application.admin_comments %>
+								<% if @current_user.is_admin? %>
+							<%= link_to "备注",edit_application_path(application.id),class: "text-info" %>
+							<% end %>
             </td>
             <td>
               <span class="timeinfo"><%= application.created_at.to_formatted_s(:db) %> </span>
@@ -63,4 +68,8 @@
 					</tr>
           <% end %>
 				</tbody>
+
 			</table>
+  <div class="text-center">
+	<%= will_paginate @applications %>
+  </div>

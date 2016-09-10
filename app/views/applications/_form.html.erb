@@ -1,10 +1,13 @@
+
 <%= form_for(@application) do |f| %>
   <% if flash.now[:notice] %>
     <p class="box notice"> <%= flash[:notice] %> </p>
   <% elsif flash.now[:error] %>
     <p class="box error"> <%= flash[:error] %> </p>
   <% end %>
+
   <% if !@current_user.is_admin? %>
+
   <div class="field">
     <%= f.label :请假原因 %>
     <%= f.text_field :application_reasons %>

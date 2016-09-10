@@ -1,8 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>用户列表</h1>
-
-<table>
+<h1 class="text-center">用户列表</h1>
+<%= button_to '新建用户', new_user_path, method: :get ,class: "btn btn-primary btn-sm"%>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>ID</th>
@@ -22,12 +20,10 @@
         <td><%= user.is_admin %></td>
         <td><%= link_to '查看', user %></td>
         <td><%= link_to '编辑', edit_user_path(user) %></td>
-        <td><%= link_to '删除', user, method: :delete, data: { confirm: '确定删除用户?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to '新建用户', new_user_path %>
+<div class="text-center">
+  <%= will_paginate @users %>
+</div>

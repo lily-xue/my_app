@@ -1,15 +1,21 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>姓名:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>邮箱:</strong>
-  <%= @user.email %>
-</p>
-
-
-<%= link_to '编辑用户', edit_user_path(@user) %> |
-<%= link_to '返回', users_path %>
+<div class="row clearfix">
+				<div class="col-md-4 column">
+				</div>
+				<div class="col-md-4 column">
+          <p class="text-center">
+            <h1>个人资料</h1>
+            <p>
+              <strong>姓名:</strong>
+              <%= @user.name %>
+            </p>
+            <p>
+              <strong>邮箱:</strong>
+              <%= @user.email %>
+            </p>
+        <%= button_to '修改资料', edit_user_path(@user), method: :get ,class: "btn btn-primary btn-sm"%>
+        </p>
+				</div>
+				<div class="col-md-4 column">
+				</div>
+			</div>

@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update,]
   before_action :authenticate!
   before_action :correct_user, only: [:edit, :update,:show]
-  before_action :admin_user,only: [:create,:destroy,:index,:new]
+  before_action :admin_user,only: [:create,:index,:new]
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page],per_page: 8)#.order(created_at: :desc)
   end
 
   # GET /users/1
@@ -42,24 +42,20 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+      if @user.is_admin?
+         @user.update(user_params)
+      else
+         @user.update(user_params_password)
+      end
+
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_params) || @user.update(user_params_password)
         format.html { redirect_to @user, notice: '修改用户信息成功' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: '删除用户成功' }
-      format.json { head :no_content }
     end
   end
 
@@ -86,4 +82,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email)
+    end
+
+    def user_params_password
+      params.require(:user).permit(:password, :password_confirmation)
+
     end

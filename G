@@ -1,6 +1,18 @@
-Merge remote-tracking branch 'origin/layout' into home
-
-# 请输入一个提交信息以解释此合并的必要性，尤其是将一个更新后的上游分支
-# 合并到主题分支。
-#
-# 以 '#' 开头的行将被忽略，而且空提交说明将会终止提交。
+<div class="row clearfix">
+		<div class="col-md-4 column">
+		</div>
+		<div class="col-md-4 column">
+			<h2>
+				Heading
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				 <a class="btn" href="#">View details »</a>
+			</p>
+		</div>
+		<div class="col-md-4 column">
+		</div>
+	</div>
+</div>

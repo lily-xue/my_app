@@ -1,5 +1,17 @@
-<h1>新建用户</h1>
 
-<%= render 'form', user: @user %>
+<div class="row clearfix">
+				<div class="col-md-4 column">
+				</div>
+				<div class="col-md-4 column">
+          <p class="text-center">
+            <h1>新建用户</h1>
 
-<%= link_to '返回', users_path %>
+            <%= render 'form', user: @user %>
+
+            <%= link_to '返回', users_path %>
+        </p>
+				</div>
+				<div class="col-md-4 column">
+          <%= render 'shared/error_messages' %>
+				</div>
+			</div>

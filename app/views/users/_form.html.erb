@@ -1,10 +1,4 @@
 <%= form_for(user) do |f| %>
-  <% if flash[:notice] %>
-    <p class="box notice"> <%= flash[:notice] %> </p>
-  <% elsif flash[:error] %>
-    <p class="box error"> <%= flash[:error] %> </p>
-  <% end %>
-
   <%= f.label :姓名 %>
   <%= f.text_field :name %>
   <%= f.label :邮箱 %>
@@ -13,6 +7,7 @@
   <%= f.password_field :password %>
   <%= f.label :password_confirmation, "确认密码" %>
   <%= f.password_field :password_confirmation %>
-  <%= f.submit "提交", class: "btn btn-large btn-primary" %>
-
+  <div class="actions">
+    <%= f.submit "提交"%>
+  </div>
 <% end %>

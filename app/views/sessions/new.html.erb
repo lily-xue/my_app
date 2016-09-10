@@ -1,14 +1,16 @@
-<% if flash[:notice] %>
-  <p class="box notice"> <%= flash[:notice] %> </p>
-<% elsif flash[:error] %>
-  <p class="box error"> <%= flash[:error] %> </p>
-<% end %>
-
-<div>
-  <h3>用户登陆</h3>
-  <%= form_tag login_path do |f| %>
-  <p><label>　用户名: </label><%= text_field_tag :name %></p>
-  <p><label>　　密码: </label><%= password_field_tag :password %></p>
-  <p><%= submit_tag "登陆" %></p>
-  <% end %>
-</div>
+<div class="row clearfix">
+				<div class="col-md-4 column">
+				</div>
+				<div class="col-md-4 column">
+          <p class="text-center">
+            <h1>登录</h1>
+            <%= form_tag login_path do |f| %>
+            <p><label>　用户名: </label><%= text_field_tag :name %></p>
+            <p><label>　　密码: </label><%= password_field_tag :password %></p>
+            <p><%= submit_tag "登陆" %></p>
+            <% end %>
+        </p>
+				</div>
+				<div class="col-md-4 column">
+				</div>
+			</div>

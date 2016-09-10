@@ -23,9 +23,9 @@ class ApplicationsController < ApplicationController
 
   def index
     if @current_user.is_admin == true   #如果当前用户为管理员，则显示所有请假信息
-       @applications = Application.all.order(created_at: :desc)  #显示所有申请信息，并根据申请时间降序排列
+       @applications = Application.paginate(page: params[:page],per_page: 10)
     else
-      @applications = @current_user.applications.order(created_at: :desc)  #如果当前用户是普通用户，则显示本人的所有申请信息，根据申请时间降序排序
+      @applications = @current_user.applications.paginate(page: params[:page],per_page: 10)  #如果当前用户是普通用户，则显示本人的所有申请信息，根据申请时间降序排序
       @application = Application.new
     end
   end
@@ -53,15 +53,24 @@ class ApplicationsController < ApplicationController
      redirect_to(root_path) unless (@application.status == "申请中" && @current_user == @application.user) || @current_user.is_admin?
   end
 
+
   def sendmail_for_application_update  #申请状态变化,发邮件给申请人
-      Sendmail.sendmail_for_application(@application.user).deliver
+    begin  #错误处理程序，如果发送邮件失败，报错
+       Sendmail.sendmail_for_application(@application.user).deliver
+    rescue
+       flash[:notice] = "发送邮件失败"
+     end
   end
 
   def sendmail_for_application_create #新建申请时,发邮件给所有管理员
       admins = User.where(is_admin: true)
       admins.each  do |admin|
+        begin
       Sendmail.sendmail_for_application(admin).deliver
-      puts admin.name
+        rescue
+          flash[:notice] = "发送邮件给#{admin.name}失败"
+        end
+
       end
   end
 
