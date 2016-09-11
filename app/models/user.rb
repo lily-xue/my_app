@@ -11,5 +11,16 @@ class User < ApplicationRecord
   attr_accessor :password
   validates :password, length: {minimum: 6}, if: ->{ password }
 
+  has_many :relations, foreign_key: "staff_id", dependent: :destroy
+  has_many :staff_users, through: :relations, source: :staff
+
   # name_old, name_new
+  def add_to_department?
+     relations.find_by(self.id)
+  end
+
+  def add_to_department!(manager)
+    relations.create(manager_id: manager.id)
+  end
+
 end
