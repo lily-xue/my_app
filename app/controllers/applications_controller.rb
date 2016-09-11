@@ -66,17 +66,13 @@ class ApplicationsController < ApplicationController
   end
 
   def sendmail_for_application_create #新建申请时,发邮件给所有管理员
-    p "creat"
       admins = User.where(is_admin: true)
-     p admins
        admins.each  do |admin|
          begin
-           p "mail"
       Sendmail.sendmail_for_application(admin).deliver
          rescue
            flash[:notice] = "发送邮件给#{admin.name}失败"
          end
-
       end
   end
 
