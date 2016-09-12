@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update,]
-  before_action :authenticate!
-  before_action :correct_user, only: [:edit, :update,:show]
-  before_action :admin_user,only: [:create,:index,:new]
+  # before_action :set_user, only: [:show, :edit, :update,]
+  # before_action :authenticate!
+  # before_action :correct_user, only: [:edit, :update,:show]
+  # before_action :admin_user,only: [:create,:index,:new]
   # GET /users
   # GET /users.json
   def index
